@@ -1,0 +1,89 @@
+======================================================================
+                  SAMPLE TEST INPUTS FOR STREAMLIT APPS
+======================================================================
+Use these sample inputs to easily test your deployed Streamlit applications. 
+No images are required since none of the tasks involve computer vision.
+
+----------------------------------------------------------------------
+TASK 1: IRIS FLOWER CLASSIFICATION (app_task1.py)
+----------------------------------------------------------------------
+* Test Case 1 (Expected: Setosa)
+  - Sepal Length: 5.1
+  - Sepal Width: 3.5
+  - Petal Length: 1.4
+  - Petal Width: 0.2
+
+* Test Case 2 (Expected: Versicolor)
+  - Sepal Length: 6.4
+  - Sepal Width: 3.2
+  - Petal Length: 4.5
+  - Petal Width: 1.5
+
+* Test Case 3 (Expected: Virginica)
+  - Sepal Length: 6.9
+  - Sepal Width: 3.1
+  - Petal Length: 5.1
+  - Petal Width: 2.3
+
+----------------------------------------------------------------------
+TASK 2: UNEMPLOYMENT ANALYSIS (app_task2.py)
+----------------------------------------------------------------------
+* This task does not require manual inputs. 
+* It automatically downloads the CSV dataset directly from Kaggle 
+  using the `kagglehub` library. Just open the app and wait for it to load!
+
+----------------------------------------------------------------------
+TASK 3: CAR PRICE PREDICTION (app_task3.py)
+----------------------------------------------------------------------
+* Test Case 1 (Expected Price: ~4.0 to 5.0 Lakhs)
+  - Present Price: 5.59
+  - Kilometers Driven: 47000
+  - Owner: 0
+  - Car Age: 10
+  - Fuel Type: Petrol
+  - Seller Type: Dealer
+  - Transmission: Manual
+  - Brand: Hyundai
+
+* Test Case 2 (Expected Price: ~8.0 to 9.5 Lakhs)
+  - Present Price: 11.23
+  - Kilometers Driven: 42000
+  - Owner: 0
+  - Car Age: 5
+  - Fuel Type: Petrol
+  - Seller Type: Dealer
+  - Transmission: Manual
+  - Brand: Maruti
+
+----------------------------------------------------------------------
+TASK 4: EMAIL SPAM DETECTION (app_task4.py)
+----------------------------------------------------------------------
+* Test Case 1 (Expected: SPAM)
+  "URGENT! You have won a 1 week FREE membership in our $100,000 Prize Jackpot! Txt the word: CLAIM to No: 81010"
+
+* Test Case 2 (Expected: SPAM)
+  "Congratulations! You are the lucky winner of a brand new iPhone 15 Pro. Click http://bit.ly/scam-link to claim your prize now before it expires!"
+
+* Test Case 3 (Expected: HAM / Legitimate)
+  "Hey Sarah, are we still meeting for lunch today at 1 PM? Let me know if you want me to book a table."
+
+* Test Case 4 (Expected: HAM / Legitimate)
+  "Hi Team, please find attached the weekly marketing report for your review. We will discuss the metrics during tomorrow's sync."
+
+----------------------------------------------------------------------
+TASK 5: SALES PREDICTION (app_task5.py)
+----------------------------------------------------------------------
+* Test Case 1 (Expected Sales: ~22.0 units)
+  - TV Budget: 230.1
+  - Radio Budget: 37.8
+  - Newspaper Budget: 69.2
+
+* Test Case 2 (Expected Sales: ~10.4 units)
+  - TV Budget: 44.5
+  - Radio Budget: 39.3
+  - Newspaper Budget: 45.1
+
+* Test Case 3 (Expected Sales: ~12.0 units)
+  - TV Budget: 17.2
+  - Radio Budget: 45.9
+  - Newspaper Budget: 69.3
