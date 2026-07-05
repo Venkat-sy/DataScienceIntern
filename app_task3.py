@@ -13,7 +13,7 @@ st.write("Automatically downloading dataset from Kaggle via `kagglehub`...")
 
 @st.cache_resource
 def load_and_train():
-    path = kagglehub.dataset_download("nehalbirla/vehicle-dataset-from-cardekho")
+    path = kagglehub.dataset_download("sauravstatthings/car-datacsv")
     csv_path = os.path.join(path, "car data.csv")
     df = pd.read_csv(csv_path)
     
