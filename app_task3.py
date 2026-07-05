@@ -1,21 +1,21 @@
 import streamlit as st
 import pandas as pd
+import kagglehub
+import os
 from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 
 st.set_page_config(page_title="Task 3: Car Price Prediction", layout="wide")
 
 st.title("🚗 Task 3: Car Price Prediction")
-st.write("Please upload the **car_data.csv** (Vehicle dataset from cardekho) to train the model.")
+st.write("Automatically downloading dataset from Kaggle via `kagglehub`...")
 
-uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
-
-if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
-    
-    st.success("Dataset loaded successfully! Training model...")
+@st.cache_resource
+def load_and_train():
+    path = kagglehub.dataset_download("nehalbirla/vehicle-dataset-from-cardekho")
+    csv_path = os.path.join(path, "car data.csv")
+    df = pd.read_csv(csv_path)
     
     # Preprocessing
     df.drop_duplicates(inplace=True)
@@ -37,36 +37,43 @@ if uploaded_file is not None:
     rf = RandomForestRegressor(n_estimators=100, random_state=42)
     rf.fit(X, y)
     
-    st.subheader("Model Trained (Random Forest)")
-    st.write(f"R² Score on full data: **{r2_score(y, rf.predict(X)):.4f}**")
+    return rf, X, y, label_encoders
+
+with st.spinner("Downloading data and training model..."):
+    rf, X, y, label_encoders = load_and_train()
+
+st.success("Dataset loaded and model trained successfully!")
+
+st.subheader("Model Performance (Random Forest)")
+st.write(f"R² Score on full data: **{r2_score(y, rf.predict(X)):.4f}**")
+
+st.subheader("Predict Car Price")
+
+col1, col2 = st.columns(2)
+with col1:
+    present_price = st.number_input("Present Price (in Lakhs)", value=5.0)
+    kms_driven = st.number_input("Kilometers Driven", value=50000)
+    owner = st.selectbox("Owner (0 = First, 1 = Second)", [0, 1, 2])
+    car_age = st.number_input("Car Age (Years)", value=5)
     
-    st.subheader("Predict Car Price")
+with col2:
+    fuel = st.selectbox("Fuel Type", label_encoders["Fuel_Type"].classes_)
+    seller = st.selectbox("Seller Type", label_encoders["Seller_Type"].classes_)
+    transmission = st.selectbox("Transmission", label_encoders["Transmission"].classes_)
+    brand = st.selectbox("Brand", label_encoders["Brand"].classes_)
     
-    col1, col2 = st.columns(2)
-    with col1:
-        present_price = st.number_input("Present Price (in Lakhs)", value=5.0)
-        kms_driven = st.number_input("Kilometers Driven", value=50000)
-        owner = st.selectbox("Owner (0 = First, 1 = Second)", [0, 1, 2])
-        car_age = st.number_input("Car Age (Years)", value=5)
-        
-    with col2:
-        fuel = st.selectbox("Fuel Type", label_encoders["Fuel_Type"].classes_)
-        seller = st.selectbox("Seller Type", label_encoders["Seller_Type"].classes_)
-        transmission = st.selectbox("Transmission", label_encoders["Transmission"].classes_)
-        brand = st.selectbox("Brand", label_encoders["Brand"].classes_)
-        
-    if st.button("Predict Selling Price"):
-        input_data = {
-            "Present_Price": present_price,
-            "Kms_Driven": kms_driven,
-            "Fuel_Type": label_encoders["Fuel_Type"].transform([fuel])[0],
-            "Seller_Type": label_encoders["Seller_Type"].transform([seller])[0],
-            "Transmission": label_encoders["Transmission"].transform([transmission])[0],
-            "Owner": owner,
-            "Car_Age": car_age,
-            "Brand": label_encoders["Brand"].transform([brand])[0]
-        }
-        
-        input_df = pd.DataFrame([input_data])[X.columns]
-        pred = rf.predict(input_df)[0]
-        st.success(f"Estimated Selling Price: **{pred:.2f} Lakhs**")
+if st.button("Predict Selling Price"):
+    input_data = {
+        "Present_Price": present_price,
+        "Kms_Driven": kms_driven,
+        "Fuel_Type": label_encoders["Fuel_Type"].transform([fuel])[0],
+        "Seller_Type": label_encoders["Seller_Type"].transform([seller])[0],
+        "Transmission": label_encoders["Transmission"].transform([transmission])[0],
+        "Owner": owner,
+        "Car_Age": car_age,
+        "Brand": label_encoders["Brand"].transform([brand])[0]
+    }
+    
+    input_df = pd.DataFrame([input_data])[X.columns]
+    pred = rf.predict(input_df)[0]
+    st.success(f"Estimated Selling Price: **{pred:.2f} Lakhs**")
