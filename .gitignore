@@ -1,0 +1,6 @@
+.ipynb_checkpoints/
+__pycache__/
+generate_notebooks.py
+smsspamcollection.zip
+sms_data/
+Advertising.csv
