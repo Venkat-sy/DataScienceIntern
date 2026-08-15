@@ -26,10 +26,10 @@ fig, axs = plt.subplots(2, 2, figsize=(16, 12))
 sns.histplot(df["Age"], bins=5, kde=True, color="skyblue", ax=axs[0, 0])
 axs[0, 0].set_title("Distribution of Employee Ages")
 
-sns.countplot(data=df, x="Department", palette="viridis", ax=axs[0, 1])
+sns.countplot(data=df, x="Department", hue="Department", legend=False, palette="viridis", ax=axs[0, 1])
 axs[0, 1].set_title("Number of Employees per Department")
 
-sns.barplot(data=df, x="Department", y="Salary", errorbar=None, palette="magma", ax=axs[1, 0])
+sns.barplot(data=df, x="Department", y="Salary", hue="Department", legend=False, errorbar=None, palette="magma", ax=axs[1, 0])
 axs[1, 0].set_title("Average Salary by Department")
 
 sns.scatterplot(data=df, x="Age", y="Salary", hue="Department", s=150, ax=axs[1, 1])
